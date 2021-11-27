@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  laravel:
+    build:
+      context: .
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/docker.env:/var/www/.env
+    ports:
+      - "80:8000"
+
+    depends_on:
+      - mysql
+      - redis
+
+  redis:
+    image: redis:alpine
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3336:3306"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: dashboard
+      MYSQL_USER: dashboard
+      MYSQL_PASSWORD: dashboard
+      MYSQL_ROOT_PASSWORD: root
+
