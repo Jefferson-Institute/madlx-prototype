@@ -40,7 +40,7 @@ class VisualizationController extends BaseController
 
     public function getAuthorities()
     {
-        $CUBEJS_API_URL = 'https://demo-cube.madlx.org/cubejs-api/v1/load';
+        $CUBEJS_API_URL = 'http://cube:4000/cubejs-api/v1/load';
         $CUBEJS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MTMwNDg1MjMsImV4cCI6MTY0NDU4NDUyNCwiYXVkIjoiZGFzaC5qZWZmZXJzb25ob3N0aW5nLm9yZyIsInN1YiI6IiIsIkVtYWlsIjoiYWRtaW5AamVmZmVyc29uaG9zdGluZy5vcmcifQ.mSfNczOIZyfXXCrU61WCwWVB1ojQCy3WjUy_8WAGnz8';
         $response = Http::withToken($CUBEJS_TOKEN)->get($CUBEJS_API_URL, [
             'query' => '{"measures":["Statements.count"],"dimensions":["Statements.authorityName"]}',

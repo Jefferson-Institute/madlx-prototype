@@ -20,7 +20,6 @@ then
   php artisan migrate --seed
 fi
 
-npm install && npm rebuild node-sass && npm run dev
+npm install -g cross-env && npm install && npm run production
 
 php artisan serve --host 0.0.0.0
-

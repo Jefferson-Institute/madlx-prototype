@@ -30,3 +30,28 @@ services:
       MYSQL_PASSWORD: dashboard
       MYSQL_ROOT_PASSWORD: root
 
+  mysqllrs:
+    image: mysql:5.7
+    ports:
+      - "3337:3306"
+    volumes:
+      - ./lrs-dump:/docker-entrypoint-initdb.d
+    command: --sql_mode=""
+    environment:
+      MYSQL_DATABASE: lrs
+      MYSQL_USER: lrs
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+
+  cube:
+    image: cubejs/cube:latest
+    ports:
+      - 4000:4000 # Cube.js API and Developer Playground
+      - 3000:3000 # Dashboard app, if created
+    environment:
+      - CUBEJS_DEV_MODE=true
+    volumes:
+      - ./cube_conf:/cube/conf
+      # Prevent dev dependencies leaking
+      - .empty:/cube/conf/node_modules/@cubejs-backend/
+

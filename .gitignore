@@ -15,3 +15,5 @@ yarn-error.log
 /public/js
 /public/*.js
 /public/*.js.map
+.cubestore
+.empty

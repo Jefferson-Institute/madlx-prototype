@@ -121,7 +121,7 @@ import axios from 'axios';
 
 import { GridLayout, GridItem } from 'vue-grid-layout';
 
-const API_URL = 'https://demo-cube.madlx.org';
+const API_URL = 'http://127.0.0.1:4000';
 const CUBEJS_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MTMwNDg1MjMsImV4cCI6MTY0NDU4NDUyNCwiYXVkIjoiZGFzaC5qZWZmZXJzb25ob3N0aW5nLm9yZyIsInN1YiI6IiIsIkVtYWlsIjoiYWRtaW5AamVmZmVyc29uaG9zdGluZy5vcmcifQ.mSfNczOIZyfXXCrU61WCwWVB1ojQCy3WjUy_8WAGnz8';
 const cubejsApi = cubejs(CUBEJS_TOKEN, {
