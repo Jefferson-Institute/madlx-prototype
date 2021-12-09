@@ -2,6 +2,9 @@
   <img width="100%" src="https://madlx.org/images/logo-color.svg">
 </p>
 
+## Madlx Prototype Demo
+[demo.madlx.org](https://demo.madlx.org/)
+
 ## Getting started
 
 ### Prerequisites

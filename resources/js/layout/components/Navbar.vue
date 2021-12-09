@@ -12,7 +12,8 @@
 
         <search id="header-search" class="right-menu-item" />
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" style="margin-right:20px" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <a href="https://github.com/Jefferson-Institute/madlx-prototype" class="right-menu-item hover-effect" target="_blank" style="margin-right:20px"><svg-icon icon-class="link" /><span> Github </span></a>
       </template>
     </div>
   </div>

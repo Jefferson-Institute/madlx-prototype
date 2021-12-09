@@ -106,7 +106,7 @@ export default {
             fontSize: 14,
             formatter: function(param) {
               if (param.name === 'value') {
-                return param.value.toFixed(2);
+                return param.value.toFixed(0);
               }
               if (/\s/g.test(param.name)) {
                 return param.name.split(' ').map(function(item){
