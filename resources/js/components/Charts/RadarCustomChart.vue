@@ -4,7 +4,7 @@
 
 <script>
 import { use } from 'echarts/core';
-import { SVGRenderer } from 'echarts/renderers';
+import { CanvasRenderer } from 'echarts/renderers';
 import { RadarChart } from 'echarts/charts';
 import {
   TooltipComponent,
@@ -14,7 +14,7 @@ import {
 import VChart, { THEME_KEY } from 'vue-echarts';
 
 use([
-  SVGRenderer,
+  CanvasRenderer,
   RadarChart,
   TooltipComponent,
   LegendComponent,

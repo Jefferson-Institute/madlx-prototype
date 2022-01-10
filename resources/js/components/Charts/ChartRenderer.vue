@@ -2,21 +2,21 @@
   <div v-if="result" class="chart-renderer">
     <!-- <component v-if="chartjs.includes(chartType)" :is="componentType" :data="result" height="400px" :donut="chartType==='doughnut'" :xtitle="xtitle" :ytitle="ytitle" :curve="curve" :legend="legend"></component> -->
 
-    <scatter-chart v-if="chartType === 'scatter'" :legend="legend" :result-set="result" :curve="curve" :xtitle="xtitle" :ytitle="ytitle" :url="url" />
-    <line-chart v-if="chartType === 'line'" :legend="legend" :result-set="result" :curve="curve" :xtitle="xtitle" :ytitle="ytitle" />
-    <line-chart v-if="chartType === 'area'" :legend="legend" :result-set="result" :curve="curve" :xtitle="xtitle" :ytitle="ytitle" :area="true" />
-    <stacked-chart v-if="chartType === 'stacked'" :legend="legend" :result-set="result" :xtitle="xtitle" :ytitle="ytitle" />
-    <column-chart v-if="chartType === 'column'" :legend="legend" :result-set="result" :xtitle="xtitle" :ytitle="ytitle" :color="color" :inside="inside" />
-    <pie-chart v-if="chartType === 'pie'" :legend="legend" :title="title" :result-set="result" />
-    <sunburst-chart v-if="chartType === 'sunburst'" :legend="legend" :title="title" :result-set="result" />
-    <doughnut-chart v-if="chartType === 'doughnut'" :legend="legend" :title="title" :result-set="result" />
-    <rose-chart v-if="chartType === 'rose'" :legend="legend" :title="title" :result-set="result" />
+    <scatter-chart v-if="chartType === 'scatter'" :legend="legend" :result-set="result" :curve="curve" :xtitle="xtitle" :ytitle="ytitle" :url="url" :file-name="fileName" />
+    <line-chart v-if="chartType === 'line'" :legend="legend" :result-set="result" :curve="curve" :xtitle="xtitle" :ytitle="ytitle" :file-name="fileName" />
+    <line-chart v-if="chartType === 'area'" :legend="legend" :result-set="result" :curve="curve" :xtitle="xtitle" :ytitle="ytitle" :area="true" :file-name="fileName" />
+    <stacked-chart v-if="chartType === 'stacked'" :legend="legend" :result-set="result" :xtitle="xtitle" :ytitle="ytitle" :file-name="fileName" />
+    <column-chart v-if="chartType === 'column'" :legend="legend" :result-set="result" :xtitle="xtitle" :ytitle="ytitle" :color="color" :inside="inside" :file-name="fileName" />
+    <pie-chart v-if="chartType === 'pie'" :legend="legend" :title="title" :result-set="result" :file-name="fileName" />
+    <sunburst-chart v-if="chartType === 'sunburst'" :legend="legend" :title="title" :result-set="result" :file-name="fileName" />
+    <doughnut-chart v-if="chartType === 'doughnut'" :legend="legend" :title="title" :result-set="result" :file-name="fileName" />
+    <rose-chart v-if="chartType === 'rose'" :legend="legend" :title="title" :result-set="result" :file-name="fileName" />
     <Table v-if="chartType === 'table'" :result-set="resultSet" :pivot-config="pivotConfig" :page-size="pageSize" />
     <div v-if="chartType === 'counter'" style="height:200px;max-width:500px;border: 1px solid #f0f2f5;">
       <counter :result-set="resultSet" :pivot-config="pivotConfig" :background="background" :icon="icon" />
     </div>
-    <correlogram v-if="chartType === 'correlogram'" :result-set="resultSet" :pivot-config="pivotConfig" />
-    <radar-chart v-if="chartType === 'radar'" :result-set="resultSet" :pivot-config="pivotConfig" :legend="legend" />
+    <correlogram v-if="chartType === 'correlogram'" :result-set="resultSet" :pivot-config="pivotConfig" :file-name="fileName" />
+    <radar-chart v-if="chartType === 'radar'" :result-set="resultSet" :pivot-config="pivotConfig" :legend="legend" :file-name="fileName" />
   </div>
 </template>
 
@@ -125,6 +125,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    fileName: {
+      type: String,
+      required: false,
+      default: 'madlx-chart',
     },
   },
 

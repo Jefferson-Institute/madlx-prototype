@@ -4,7 +4,7 @@
 
 <script>
 import { use } from 'echarts/core';
-import { SVGRenderer } from 'echarts/renderers';
+import { CanvasRenderer } from 'echarts/renderers';
 import { HeatmapChart } from 'echarts/charts';
 import {
   TooltipComponent,
@@ -17,7 +17,7 @@ import VChart, { THEME_KEY } from 'vue-echarts';
 var jz = require('jeezy');
 
 use([
-  SVGRenderer,
+  CanvasRenderer,
   HeatmapChart,
   TooltipComponent,
   LegendComponent,
@@ -70,6 +70,11 @@ export default {
       default() {
         return {};
       },
+    },
+    fileName: {
+      type: String,
+      required: false,
+      default: 'madlx-chart',
     },
   },
   data: () => ({
@@ -138,6 +143,7 @@ export default {
             saveAsImage: {
               title: 'Save',
               show: true,
+              name: this.fileName,
             },
           },
         },

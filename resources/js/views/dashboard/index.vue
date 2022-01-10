@@ -67,6 +67,7 @@
                       :xtitle="viz.xtitle"
                       :ytitle="viz.ytitle"
                       :curve="!!viz.curve"
+                      :file-name="viz.title"
                     />
                   </div>
                 </div>

@@ -4,7 +4,7 @@
 
 <script>
 import { use } from 'echarts/core';
-import { SVGRenderer } from 'echarts/renderers';
+import { CanvasRenderer } from 'echarts/renderers';
 import { LineChart } from 'echarts/charts';
 import {
   TooltipComponent,
@@ -15,7 +15,7 @@ import {
 import VChart, { THEME_KEY } from 'vue-echarts';
 
 use([
-  SVGRenderer,
+  CanvasRenderer,
   LineChart,
   TooltipComponent,
   LegendComponent,
@@ -61,6 +61,11 @@ export default {
       required: false,
       default: false,
     },
+    fileName: {
+      type: String,
+      required: false,
+      default: 'madlx-chart',
+    },
   },
   computed: {
     option() {
@@ -79,6 +84,7 @@ export default {
             saveAsImage: {
               title: 'Save',
               show: true,
+              name: this.fileName,
             },
           },
         },

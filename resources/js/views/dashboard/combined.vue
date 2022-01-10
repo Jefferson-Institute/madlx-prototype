@@ -44,7 +44,7 @@
                 <span style="text-transform: uppercase; line-height: 1.4;">Objectives Correlation Matrix</span>
               </div>
               <div v-if="resultSet" style="height:100%;overflow-x: hidden;">
-                <ChartRenderer chart-type="correlogram" :pivot-config="{}" :result-set="resultSet" />
+                <ChartRenderer chart-type="correlogram" :pivot-config="{}" :result-set="resultSet" file-name="Objectives Correlation Matrix" />
               </div>
             </el-card>
           </template>
@@ -58,7 +58,7 @@
                 <span style="text-transform: uppercase; line-height: 1.4;">Objectives Correlation Input</span>
               </div>
               <div v-if="resultSet" style="max-height:600px">
-                <ChartRenderer chart-type="table" :pivot-config="{}" :result-set="resultSet" :page-size="13" />
+                <ChartRenderer chart-type="table" :pivot-config="{}" :result-set="resultSet" :page-size="13" file-name="Objectives Correlation Input" />
               </div>
             </el-card>
           </template>
@@ -74,7 +74,7 @@
                 <span style="text-transform: uppercase; line-height: 1.4;">Number of statements per Source timeline</span>
               </div>
               <div v-if="resultSet" style="height:100%">
-                <ChartRenderer chart-type="line" :pivot-config="{'x':['Statements.timestamp.day'],'y':['Statements.authorityName','measures']}" :result-set="resultSet" :curve="true" />
+                <ChartRenderer chart-type="line" :pivot-config="{'x':['Statements.timestamp.day'],'y':['Statements.authorityName','measures']}" :result-set="resultSet" :curve="true" file-name="Number of statements per Source timeline" />
               </div>
             </el-card>
           </template>
@@ -88,7 +88,7 @@
                 <span style="text-transform: uppercase; line-height: 1.4;">Learner Average scores per source</span>
               </div>
               <div v-if="resultSet" style="height:100%">
-                <ChartRenderer chart-type="scatter" :pivot-config="{&quot;x&quot;:[&quot;Statements.actorName&quot;],&quot;y&quot;:[&quot;Statements.authorityName&quot;,&quot;measures&quot;]}" :result-set="resultSet" ytitle="Average Score" url="learners" />
+                <ChartRenderer chart-type="scatter" :pivot-config="{&quot;x&quot;:[&quot;Statements.actorName&quot;],&quot;y&quot;:[&quot;Statements.authorityName&quot;,&quot;measures&quot;]}" :result-set="resultSet" ytitle="Average Score" url="learners" file-name="Learner Average scores per source" />
               </div>
             </el-card>
           </template>
@@ -104,7 +104,7 @@
                 <span style="text-transform: uppercase; line-height: 1.4;">Average Scores per Source</span>
               </div>
               <div v-if="resultSet" style="height:100%">
-                <ChartRenderer chart-type="column" :pivot-config="{}" :result-set="resultSet" xtitle="Source Name" ytitle="Average Score" color="#339EA8" />
+                <ChartRenderer chart-type="column" :pivot-config="{}" :result-set="resultSet" xtitle="Source Name" ytitle="Average Score" color="#339EA8" file-name="Average Scores per Source" />
               </div>
             </el-card>
           </template>
@@ -118,7 +118,7 @@
                 <span style="text-transform: uppercase; line-height: 1.4;">Top 10 Objectives</span>
               </div>
               <div v-if="resultSet" style="height:100%">
-                <ChartRenderer chart-type="column" :legend="true" :pivot-config="{}" :result-set="resultSet" ytitle="Statements Count" xtitle="Course/Objective" color="#7AA535" :inside="true" />
+                <ChartRenderer chart-type="column" :legend="true" :pivot-config="{}" :result-set="resultSet" ytitle="Statements Count" xtitle="Course/Objective" color="#7AA535" :inside="true" file-name="Top 10 Objectives" />
               </div>
             </el-card>
           </template>
