@@ -1,57 +1,86 @@
-version: "3"
+version: '3.7'
+
+networks:
+  madlxdemo:
 
 services:
-  laravel:
+  webserver:
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/html
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - db
+    networks:
+      - madlxdemo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.madlxdemo.entrypoints=websecure"
+      - "traefik.http.routers.madlxdemo.rule=Host(`demo.madlx.org`)"
+  php:
     build:
       context: .
-    working_dir: /var/www
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/html
+    tty: true
     volumes:
-      - ./:/var/www
-      - ./docker/docker.env:/var/www/.env
-    ports:
-      - "8000:8000"
-
+      - ./src:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/local.ini
     depends_on:
-      - mysql
-      - redis
+      - db
+    networks:
+      - madlxdemo
 
-  redis:
-    image: redis:alpine
-
-  mysql:
+  db:
     image: mysql:5.7
+    restart: unless-stopped
     ports:
-      - "3336:3306"
-    volumes:
-      - ./docker/mysql:/var/lib/mysql
+      - 3336:3306
     environment:
       MYSQL_DATABASE: dashboard
       MYSQL_USER: dashboard
       MYSQL_PASSWORD: dashboard
       MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - madlxdemo
 
   mysqllrs:
     image: mysql:5.7
+    restart: unless-stopped
     ports:
       - "3337:3306"
     volumes:
-      - ./lrs-dump:/docker-entrypoint-initdb.d
+      - ./data/lrs-dump:/docker-entrypoint-initdb.d
     command: --sql_mode=""
     environment:
       MYSQL_DATABASE: lrs
       MYSQL_USER: lrs
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
+    networks:
+      - madlxdemo
 
   cube:
     image: cubejs/cube:latest
+    restart: unless-stopped
     ports:
       - 4000:4000 # Cube.js API and Developer Playground
       - 3000:3000 # Dashboard app, if created
     environment:
       - CUBEJS_DEV_MODE=true
     volumes:
-      - ./cube_conf:/cube/conf
+      - ./config/cube_conf:/cube/conf
       # Prevent dev dependencies leaking
-      - .empty:/cube/conf/node_modules/@cubejs-backend/
+      - ./data/empty:/cube/conf/node_modules/@cubejs-backend/
+    networks:
+      - madlxdemo
 

@@ -1,9 +1,8 @@
 #!/bin/sh
 set -eu
 
-ENV_FILE=".env"
-MYSQL_HOST=$(cat $ENV_FILE | grep "DB_HOST" | cut -d"=" -f2)
-MYSQL_PORT=$(cat $ENV_FILE | grep "DB_PORT" | cut -d"=" -f2)
+MYSQL_HOST=db
+MYSQL_PORT=3306
 
 composer install
 
@@ -20,6 +19,6 @@ then
   php artisan migrate --seed
 fi
 
-npm install -g cross-env && npm install && npm run production
+npm install && npm run production
 
-php artisan serve --host 0.0.0.0
+exec "php-fpm"

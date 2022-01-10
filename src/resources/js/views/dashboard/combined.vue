@@ -133,7 +133,7 @@ import Counter from '@/components/Charts/Counter.vue';
 import cubejs from '@cubejs-client/core';
 import ChartRenderer from '@/components/Charts/ChartRenderer';
 import { QueryRenderer } from '@cubejs-client/vue';
-const API_URL = 'http://127.0.0.1:4000';
+const API_URL = process.env.MIX_API_URL + ':4000';
 const CUBEJS_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MTMwNDg1MjMsImV4cCI6MTY0NDU4NDUyNCwiYXVkIjoiZGFzaC5qZWZmZXJzb25ob3N0aW5nLm9yZyIsInN1YiI6IiIsIkVtYWlsIjoiYWRtaW5AamVmZmVyc29uaG9zdGluZy5vcmcifQ.mSfNczOIZyfXXCrU61WCwWVB1ojQCy3WjUy_8WAGnz8';
 const cubejsApi = cubejs(CUBEJS_TOKEN, {

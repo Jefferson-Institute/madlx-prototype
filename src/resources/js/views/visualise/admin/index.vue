@@ -4,12 +4,7 @@
 
     <el-row :gutter="20">
       <el-col :sm="6">
-        <p style="margin: 0 2px 4px;color: #606266c4;">Dashboard:</p>
         <el-select :value="authority" placeholder="Data Source" :style="{width: '100%', 'margin-bottom': '10px'}" @change="setAuthority">
-          <el-option
-            label="COMBINED"
-            :value="'combined'"
-          />
           <el-option
             v-for="a in authorities"
             :key="a"
@@ -65,10 +60,10 @@
           <el-col :sm="6">
             <el-select :value="dimensions.map(i => (i.name))" multiple placeholder="Dimensions" :style="{width: '100%', 'margin-bottom': '10px'}" @change="setDimensions">
               <el-option
-                v-for="item in availableDimensions.map(i => (i.name))"
-                :key="item"
-                :label="item"
-                :value="item"
+                v-for="item in availableDimensions"
+                :key="item.name"
+                :label="item.shortTitle"
+                :value="item.name"
               />
             </el-select>
           </el-col>
@@ -146,7 +141,7 @@
           <el-col :xs="24">
             <el-select v-model="type" placeholder="Chart Type" style="margin-right:15px">
               <el-option
-                v-for="item in ['line', 'area', 'column', 'pie', 'doughnut', 'rose', 'table', 'counter', 'correlogram', 'scatter', 'radar', 'sunburst']"
+                v-for="item in ['line', 'area', 'stacked', 'column', 'pie', 'doughnut', 'rose', 'table', 'counter', 'correlogram', 'scatter', 'radar', 'sunburst']"
                 :key="item"
                 :label="item"
                 :value="item"
@@ -196,7 +191,7 @@
 
       <template v-slot="{ resultSet }">
         <div v-if="resultSet" style="padding: 25px;background: #ffffff;margin: 25px 0;border-radius: 5px;overflow-y: auto;">
-          <ChartRenderer :pivot-config="pivot_config" :chart-type="type" :result-set="resultSet" :background="background" :icon="icon" :xtitle="xtitle" :ytitle="ytitle" :curve="curve" :legend="legend" />
+          <ChartRenderer :key="edit_version" :pivot-config="pivot_config" :chart-type="type" :result-set="resultSet" :background="background" :icon="icon" :xtitle="xtitle" :ytitle="ytitle" :curve="curve" :legend="legend" />
         </div>
       </template>
 
@@ -233,7 +228,7 @@ import Order from '../Order.vue';
 import Limit from '../Limit.vue';
 import PivotConfig from '../PivotConfig.vue';
 
-const API_URL = 'http://127.0.0.1:4000';
+const API_URL = process.env.MIX_API_URL + ':4000';
 const CUBEJS_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MTMwNDg1MjMsImV4cCI6MTY0NDU4NDUyNCwiYXVkIjoiZGFzaC5qZWZmZXJzb25ob3N0aW5nLm9yZyIsInN1YiI6IiIsIkVtYWlsIjoiYWRtaW5AamVmZmVyc29uaG9zdGluZy5vcmcifQ.mSfNczOIZyfXXCrU61WCwWVB1ojQCy3WjUy_8WAGnz8';
 const cubejsApi = cubejs(CUBEJS_TOKEN, {
@@ -270,8 +265,9 @@ export default {
       dateRangeItems: ['Today', 'Yesterday', 'This week', 'This month', 'This quarter', 'This year', 'Last 7 days', 'Last 30 days', 'Last week', 'Last month', 'Last quarter', 'Last year'],
       granularities: [{ 'name': 'hour', 'title': 'Hour' }, { 'name': 'day', 'title': 'Day' }, { 'name': 'week', 'title': 'Week' }, { 'name': 'month', 'title': 'Month' }, { 'name': 'year', 'title': 'Year' }],
       type: 'line',
-      authority: 'combined',
+      authority: null,
       authorities: [],
+      learners: false,
       loading: true,
       background: '#FFFFFF',
       icon: null,
@@ -280,6 +276,7 @@ export default {
       curve: false,
       legend: true,
       pivot_config: {},
+      edit_version: 0,
     };
   },
   created() {
@@ -316,21 +313,37 @@ export default {
         obj.x = this.pivot_config.x ? this.pivot_config.x : undefined;
         this.pivot_config = obj;
       }
+      // re-render ChartRenderer
+      this.edit_version++;
     },
     addToDashboard(query) {
       this.$prompt('Please input Chart Title', 'Save Chart', {
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
       }).then(({ value }) => {
-        visualizationResource.store({ query, title: value, type: this.type, pivot: this.pivot_config, background: this.background, authority: this.authority, icon: this.icon, legend: this.legend, xtitle: this.xtitle, ytitle: this.ytitle, curve: this.curve }).then(() => {
+        // remove learners from query before storing
+        // const query = JSON.parse(JSON.stringify(validatedQuery));
+        // query.filters.shift();
+        if (this.authority === null) {
+          this.$notify({
+            title: 'Error',
+            message: 'Please select data source',
+            type: 'success',
+            duration: 2000,
+          });
+          return;
+        }
+        visualizationResource.store({ dashboard_id: this.$route.query.d_id, query, title: value, type: this.type, pivot: this.pivot_config, background: this.background, authority: this.authority, icon: this.icon, legend: this.legend, xtitle: this.xtitle, ytitle: this.ytitle, curve: this.curve }).then(() => {
           this.$notify({
             title: 'Success',
             message: 'Visualization created successfully',
             type: 'success',
             duration: 2000,
           });
+          this.$router.replace('/dashboards');
         });
-      }).catch(() => {
+      }).catch((e) => {
+        console.log(e);
         this.$notify({
           title: 'Error',
           message: 'Not Created!',
@@ -345,7 +358,10 @@ export default {
         cancelButtonText: 'Cancel',
         inputValue: this.visualizationBeingEdited.title,
       }).then(({ value }) => {
-        visualizationResource.update(this.visualizationBeingEdited.id, { query, title: value, type: this.type, pivot: this.pivot_config, background: this.background, authority: this.authority, icon: this.icon, legend: this.legend, xtitle: this.xtitle, ytitle: this.ytitle, curve: this.curve }).then(() => {
+        // remove learners from query before storing
+        // const query = JSON.parse(JSON.stringify(validatedQuery));
+        // query.filters.shift();
+        visualizationResource.update(this.visualizationBeingEdited.id, { dashboard_id: this.$route.query.d_id, query, title: value, type: this.type, pivot: this.pivot_config, background: this.background, authority: this.authority, icon: this.icon, legend: this.legend, xtitle: this.xtitle, ytitle: this.ytitle, curve: this.curve }).then(() => {
           this.editMode = false;
           this.visualizationBeingEdited = null;
           this.$notify({
@@ -386,6 +402,12 @@ export default {
         this.authorities = response.data.data;
       }).then(() => {
         this.loading = false;
+      });
+    },
+    async getLearners() {
+      return await axios.get('/api/learners', {
+      }).then(response => {
+        this.learners = response.data.data.map(l => l.email);
       });
     },
     setAuthority(value) {
@@ -451,7 +473,7 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .dashboard-editor-container {
   padding: 32px;
-  background-color: rgb(240, 242, 245);
+  background-color: #fcfaf8;
   .chart-wrapper {
     background: #fff;
     padding: 16px 16px 0;
