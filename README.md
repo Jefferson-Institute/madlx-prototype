@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="100%" src="https://github.com/Jefferson-Institute/madlx-prototype/blob/main/resources/js/assets/logo-color.png">
+  <img width="100%" src="https://raw.githubusercontent.com/Jefferson-Institute/madlx-prototype/main/src/resources/js/assets/logo-color.svg">
 </p>
 
 ## Madlx Prototype Demo
