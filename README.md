@@ -17,7 +17,7 @@ Run this command from project root
 ```sh
 docker-compose up -d
 ```
-Open http://127.0.0.1:8000 (laravel container port declared in `docker-compose.yml`) to access Dashboard
+Open http://127.0.0.1 (laravel container port declared in `docker-compose.yml`) to access Dashboard
 
 ## Built with
 * [Laravel](https://laravel.com/) - The PHP Framework For Web Artisans
