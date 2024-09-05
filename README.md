@@ -2,9 +2,6 @@
   <img width="100%" src="https://raw.githubusercontent.com/Jefferson-Institute/madlx-prototype/main/src/resources/js/assets/logo-color.svg">
 </p>
 
-## Madlx Prototype Demo
-[demo.madlx.org](https://demo.madlx.org/)
-
 ## Getting started
 
 ### Prerequisites
